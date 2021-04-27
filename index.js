@@ -7,6 +7,10 @@ const typeDefs = `
         name: String!
         description: String
     }
+    input PostPhotoInput {
+        name: String!
+        description: String
+    }
     type Query {
         totalPhotos: Int!
         allPhotos: [Photo!]! # 2. Возвращаем Photo
@@ -14,6 +18,7 @@ const typeDefs = `
     
     type Mutation {
         postPhoto(name: String! description: String): Photo!
+        postPhoto1(input: PostPhotoInput!): Photo
     }
 `
 var _id = 0
@@ -28,6 +33,14 @@ const resolvers = {
             var newPhoto = {
                 id: _id++,
                 ...args
+            }
+            photos.push(newPhoto)
+            return newPhoto
+        },
+        postPhoto1(parent, args) {
+            var newPhoto = {
+                id: _id++,
+                ...args.input
             }
             photos.push(newPhoto)
             return newPhoto
