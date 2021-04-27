@@ -4,10 +4,22 @@ const typeDefs = `
     type Query {
         totalPhotos: Int!
     }
+    type Mutation {
+        postPhoto(name: String! description: String): Boolean!
+    }
 `
+// 1. Тип данных для хранения ваших фотографий в памяти.
+var photos = []
 const resolvers = {
     Query: {
-        totalPhotos: () => 42
+        totalPhotos: () => photos.length, // 2. Возвращаем длину массива фотографий.
+    },
+    // 3. Распознаватель Mutation и postPhoto.
+    Mutation: {
+        postPhoto(parent, args) {
+            photos.push(args)
+            return true
+        }
     }
 }
 // 2. Создаем новый экземпляр сервера.
