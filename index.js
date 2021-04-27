@@ -1,24 +1,33 @@
 const { ApolloServer } = require('apollo-server')
 
 const typeDefs = `
+    enum PhotoCategory {
+        SELFIE
+        PORTRAIT
+        ACTION
+        LANDSCAPE
+        GRAPHIC
+    }
     type Photo {
         id: ID!
         url: String!
         name: String!
         description: String
+        category: PhotoCategory!
     }
     input PostPhotoInput {
         name: String!
         description: String
+        category: PhotoCategory=PORTRAIT
     }
     type Query {
         totalPhotos: Int!
-        allPhotos: [Photo!]! # 2. Возвращаем Photo
+        allPhotos: [Photo!]!
     }
     
     type Mutation {
-        postPhoto(name: String! description: String): Photo!
-        postPhoto1(input: PostPhotoInput!): Photo
+        postPhoto(name: String! description: String category: PhotoCategory!): Photo!
+        postPhoto1(input: PostPhotoInput!): Photo!
     }
 `
 var _id = 0
