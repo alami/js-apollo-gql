@@ -37,6 +37,9 @@ const resolvers = {
             photos.push(newPhoto)
             return newPhoto  // 3. Возвращаем новую фотографию.
         }
+    },
+    Photo: {
+        url: parent => `http://yoursite.com/img/${parent.id}.jpg`
     }
 }
 // 2. Создаем новый экземпляр сервера.
