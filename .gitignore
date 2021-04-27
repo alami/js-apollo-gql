@@ -1,0 +1,4 @@
+.idea
+/node_modules
+websocket-server-node/node_modules/
+.idea/workspace.xml
