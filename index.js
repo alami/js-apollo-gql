@@ -1,5 +1,6 @@
 const { ApolloServer } = require('apollo-server-express')
 const express = require('express')
+const expressPlayground = require('graphql-playground-middleware-express').default
 const { GraphQLScalarType } = require('graphql')
 const typeDefs = `
     enum PhotoCategory {
@@ -145,6 +146,8 @@ server.applyMiddleware({ app })  // 3. разрешить промежуточн
 
 app.get('/', (req, res) =>   // 4. Создаем домашний маршрут
     res.end('Welcome to the PhotoShare API'))
+
+app.get('/playground', expressPlayground({ endpoint:'/graphql' }))
 
 app.listen({ port: 4000 }, () =>  // 5. Перехватываем события на определенном порте.
     console.log(`GraphQL Server running @ http://localhost:4000${server.graphqlPath}`)
