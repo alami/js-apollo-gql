@@ -1,4 +1,5 @@
-const { ApolloServer } = require('apollo-server')
+const { ApolloServer } = require('apollo-server-express')
+const express = require('express')
 const { GraphQLScalarType } = require('graphql')
 const typeDefs = `
     enum PhotoCategory {
@@ -134,11 +135,17 @@ const resolvers = {
         parseLiteral: ast => ast.value
     })
 }
+var app = express()
 const server = new ApolloServer({
     typeDefs,
     resolvers
 })
-// 4. Вызываем отслеживание на сервере для запуска веб-сервера.
-server
-    .listen()
-    .then(({url}) => console.log(`GraphQL Service running on ${url}`))
+
+server.applyMiddleware({ app })  // 3. разрешить промежуточное ПО, смонтированное по тому же самому пути
+
+app.get('/', (req, res) =>   // 4. Создаем домашний маршрут
+    res.end('Welcome to the PhotoShare API'))
+
+app.listen({ port: 4000 }, () =>  // 5. Перехватываем события на определенном порте.
+    console.log(`GraphQL Server running @ http://localhost:4000${server.graphqlPath}`)
+)
